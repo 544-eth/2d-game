@@ -23,6 +23,7 @@ window.addEventListener('load', function () {
             this.UI = new UI(this)
             this.enemies = []
             this.particles = []
+            this.maxParticles = 50
             this.enemyTimer = 0
             this.enemyInterval = 1000
             this.debug = true
@@ -31,7 +32,7 @@ window.addEventListener('load', function () {
             this.player.currentState = this.player.states[0]
             this.player.currentState.enter()
         }
-        update(deltaTime) {
+        update(deltaTime) { 
             this.background.update()
             this.player.update(this.input.keys, deltaTime)
             // handleEnemies
@@ -45,12 +46,23 @@ window.addEventListener('load', function () {
                 enemy.update(deltaTime)
                 if (enemy.markedForDeletion) this.enemies.splice(this.enemies.indexOf(enemy), 1)
             })
+            // handle particles
+            this.particles.forEach((particle, index) => {
+                particle.update()
+                if (particle.markedForDeletion) this.particles.splice(index, 1)
+            })
+            if (this.particles.length > this.maxParticles){
+                this.particles = this.particles.slice(0, this.maxParticles)
+            }
         }
         draw(context) {
             this.background.draw(context)
             this.player.draw(context)
             this.enemies.forEach(enemy => {
                 enemy.draw(context)
+            })
+            this.particles.forEach(particle => {
+                particle.draw(context)
             })
             this.UI.draw(context)
         }
