@@ -45,7 +45,7 @@ export class Running extends State {
         this.game.player.maxFrame = 8
     }
     handleInput(input) {
-        this.game.particles.push(new Dust(this.game, this.game.player.x + this.game.player.width * 0.2, this.game.player.y + this.game.player.height))
+        this.game.particles.unshift(new Dust(this.game, this.game.player.x + this.game.player.width * 0.2, this.game.player.y + this.game.player.height))
         if (input.includes('ArrowDown')){
             this.game.player.setState(states.SITTING, 0)
         } else if (input.includes('ArrowUp')) {
@@ -101,7 +101,7 @@ export class Rolling extends State {
         this.game.player.frameY = 6
     }
     handleInput(input) {
-        this.game.particles.push(new Fire(this.game, this.game.player.x + this.game.player.width * 0.8, this.game.player.y + this.game.player.height * 0.6))
+        this.game.particles.unshift(new Fire(this.game, this.game.player.x + this.game.player.width * 0.8, this.game.player.y + this.game.player.height * 0.6))
         if (!input.includes('Enter') && this.game.player.onGround()){
             this.game.player.setState(states.RUNNING, 1)
         } else if (!input.includes('Enter') && !this.game.player.onGround()){
